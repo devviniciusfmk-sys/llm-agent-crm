@@ -10,7 +10,6 @@ def test_full_turn_new_lead_sales():
     assert out["escalate"] is False
     lead = crm.get_by_phone("+551199")
     assert lead["stage"] == LeadStage.QUALIFYING
-    # both sides of the conversation persisted
     roles = [h["role"] for h in lead["history"]]
     assert roles == ["user", "assistant"]
 
@@ -32,6 +31,6 @@ def test_full_turn_handoff():
 def test_second_message_reuses_lead():
     crm = InMemoryCRM()
     process_message(crm, phone="+551199", message="quanto custa?", name="Ana")
-    process_message(crm, phone="+551199", message("oi")) if False else process_message(crm, phone="+551199", message="oi")
+    process_message(crm, phone="+551199", message="oi")
     lead = crm.get_by_phone("+551199")
     assert len(lead["history"]) == 4  # 2 turns x 2 messages
